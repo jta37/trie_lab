@@ -7,11 +7,22 @@ Trie.prototype.learn = function(word, index){
   // This function should add the given word,
   // starting from the given index,
   // to this Trie.
-
+  index = index || 0;
   // It will be recursive.  It will tell
   // the correct child of this Trie to learn the word
   // starting from a later index.
-
+  var char = word[index];
+  if (index < word.length) {
+    // recursive condition
+    if (this.characters[char] === undefined) {
+      this.characters[char] = new Trie();
+    }
+    // recursively learn at next char position
+    this.characters[char].learn(word, index + 1);
+  } else {
+    // terminal condition
+    this.isWord  = true;
+  }
   // Consider what the learn function should do
   // when it reaches the end of the word?
   // A word does not necessarily end at a leaf.
