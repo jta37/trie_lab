@@ -28,19 +28,50 @@ Trie.prototype.learn = function(word, index){
   // A word does not necessarily end at a leaf.
   // You must mark nodes which are the ends of words,
   // so that the words can be reconstructed later.
+  return this;
 };
 
 Trie.prototype.getWords = function(words, currentWord){
+  words = words || [];
+  currentWord = currentWord || "";
   // This function will return all the words which are
   // contained in this Trie.
   // it will use currentWord as a prefix,
   // since a Trie doesn't know about its parents.
+
+  // checking to see if `this` node is a word
+  if (this.isWord) {
+    // then push currentWord into list of words
+    // where currentWord is built after each 
+    // call to getWords
+    words.push(currentWord);
+  }
+
+
+  // after we check if this a currentWord
+
+  // loop through all the characters in this.characters
+  for (var character in this.characters){
+    // and we are calling getWords on the next node for 
+    // each character passing in the previousWord + the new character
+    console.log(new Array(50).join("-"))
+    console.log("|" + new Array(currentWord.length).join("\t") + currentWord + "\t|")
+    this.characters[character].getWords(words, currentWord + character);
+    console.log(new Array(50).join("-"))
+  }
+  return words;
 };
 
 Trie.prototype.find = function(word, index){
   // This function will return the node in the trie
   // which corresponds to the end of the passed in word.
-
+  if (this.characters[word[index]] !== undefined ) {
+    if (index < words.length)
+      return this.characters[word[index]].find(word, index + 1);
+    } else {
+      return this;
+    }
+  }
   // Be sure to consider what happens if the word is not in this Trie.
 };
 
